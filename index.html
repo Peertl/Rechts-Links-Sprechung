@@ -184,7 +184,7 @@
         #time-bar-bg { position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: rgba(0,0,0,0.6); z-index: 40; border-bottom: 1px solid #2b1d14; }
         #time-bar { width: 100%; height: 100%; background: linear-gradient(to right, #e74c3c, #f1c40f); transition: width 1s linear; }
 
-        #defendant-container { position: absolute; bottom: -10%; left: 50%; transform: translateX(-50%); height: 60%; width: 100%; max-width: 400px; z-index: 5; touch-action: none; cursor: grab; }
+        #defendant-container { position: absolute; bottom: -10%; left: 50%; height: 60%; width: 100%; max-width: 400px; z-index: 5; touch-action: none; cursor: grab; }
         #defendant-container:active { cursor: grabbing; }
         #defendant-img { height: 100%; width: 100%; object-fit: contain; object-position: bottom center; pointer-events: none; }
         
@@ -464,7 +464,7 @@
                 isAonActive = false;
                 document.getElementById('btn-aon').classList.remove('active');
                 
-                judge(finalResult.type, 0); // Slotmachine wischt von der Mitte (0)
+                judge(finalResult.type, 0); 
             }, 600);
 
         }, 3000); 
@@ -507,14 +507,19 @@
         const randomImg = defendants[Math.floor(Math.random() * defendants.length)];
         document.getElementById('defendant-img').src = randomImg;
         
-        // Zurücksetzen für den neuen Angeklagten
+        // Komplettes Zurücksetzen der Inline-Styles
         defendantEl.className = ''; 
         defendantEl.style.transition = 'none';
         defendantEl.style.transform = 'translateX(-50%) rotate(0deg)';
-        defendantEl.style.opacity = '1'; // Sichtbarkeit garantieren!
+        defendantEl.style.opacity = '1'; 
         
         void defendantEl.offsetWidth; 
         defendantEl.classList.add('slide-up');
+        
+        // WICHTIG: Entferne die Slide-up Klasse nach Beendigung, damit der Transform wieder vom Finger gesteuert werden kann!
+        defendantEl.onanimationend = () => {
+            defendantEl.classList.remove('slide-up');
+        };
         
         backgroundImgEl.style.backgroundImage = "url('Gericht-Vor-Urteil.png')";
         isAnimating = false;
@@ -558,6 +563,9 @@
         if (isAnimating || isJokerModalOpen || !document.getElementById('anklage-modal').classList.contains('hidden') || autoJudgeQueue.length > 0) return;
         
         isSwiping = true;
+        // Falls noch nicht geschehen: CSS-Animation abbrechen, da sie sonst das Wischen überschreibt!
+        defendantEl.classList.remove('slide-up'); 
+        
         startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
         defendantEl.style.transition = 'none';
     }
@@ -573,6 +581,7 @@
         }
         
         const rotate = diffX * 0.05;
+        // Figur folgt jetzt exakt dem Finger!
         defendantEl.style.transform = `translateX(calc(-50% + ${diffX}px)) rotate(${rotate}deg)`;
     }
 
@@ -586,9 +595,9 @@
         const threshold = 80;
 
         if (diffX > threshold) {
-            judge('innocent', diffX); // Übergib aktuelle Wisch-Position
+            judge('innocent', diffX); // Wir übergeben dem Judge wie weit wir schon gewischt haben
         } else if (diffX < -threshold) {
-            judge('guilty', diffX); // Übergib aktuelle Wisch-Position
+            judge('guilty', diffX);
         } else {
             backgroundImgEl.style.backgroundImage = "url('Gericht-Vor-Urteil.png')";
             defendantEl.style.transition = 'transform 0.2s ease-out';
@@ -596,32 +605,34 @@
         }
     }
 
-    // currentDiffX sorgt dafür, dass die Animation genau da ansetzt, wo dein Finger aufhört
     function judge(verdict, currentDiffX = 0) {
         isAnimating = true;
         const feedbackEl = document.getElementById('feedback-text');
         
-        // Weiche Transition basierend auf der aktuellen Position (0.3s statt der alten 0.15s)
-        defendantEl.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
+        // Weiche, aber sichtbare Flug-Animation vom aktuellen Punkt aus
+        defendantEl.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease-out';
         
         if (verdict === 'innocent') {
             innocentCount++;
             feedbackEl.innerText = "Unschuldig!";
             feedbackEl.className = "text-innocent";
-            // Fliegt von der aktuellen Position weiter nach rechts
-            defendantEl.style.transform = `translateX(calc(-50% + ${Math.max(currentDiffX, 0) + 400}px)) rotate(20deg)`;
+            // Fliegt von der aktuellen Wischposition (oder der Mitte beim Joker) weit nach rechts aus dem Bild
+            const offScreenX = Math.max(currentDiffX, window.innerWidth / 2 + 100);
+            defendantEl.style.transform = `translateX(calc(-50% + ${offScreenX}px)) rotate(25deg)`;
             defendantEl.style.opacity = '0';
         } else {
             guiltyCount++;
             feedbackEl.innerText = "Schuldig!";
             feedbackEl.className = "text-guilty";
-            // Fliegt von der aktuellen Position weiter nach links
-            defendantEl.style.transform = `translateX(calc(-50% + ${Math.min(currentDiffX, 0) - 400}px)) rotate(-20deg)`;
+            // Fliegt von der aktuellen Wischposition weit nach links aus dem Bild
+            const offScreenX = Math.min(currentDiffX, -(window.innerWidth / 2 + 100));
+            defendantEl.style.transform = `translateX(calc(-50% + ${offScreenX}px)) rotate(-25deg)`;
             defendantEl.style.opacity = '0';
         }
         
         feedbackEl.style.opacity = 1;
         
+        // Nach Ablauf der 400ms Wisch-Animation: Neu laden
         setTimeout(() => {
             feedbackEl.style.opacity = 0;
             loadNextDefendant();
@@ -632,9 +643,10 @@
                     judge(nextVerdict, 0); 
                 }, 400); 
             }
-        }, 300); // 300ms warten, damit das Auge mitkommt
+        }, 400);
     }
 
+    // Event Listener
     defendantEl.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchmove', handleTouchMove, {passive: false});
     document.addEventListener('touchend', handleTouchEnd);
