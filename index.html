@@ -100,7 +100,7 @@
             text-transform: uppercase;
         }
 
-        /* Alles oder Nichts Button */
+        /* Doppelt oder Nichts Button */
         .btn-aon-container {
             margin-top: 10px;
         }
@@ -112,7 +112,7 @@
             border: 5px solid #2b1d14;
             color: #fff;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Etwas kleiner für das längere Wort */
             text-transform: uppercase;
             cursor: pointer;
             box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.3);
@@ -134,8 +134,8 @@
             height: 180px;
             position: relative;
             cursor: pointer;
-            z-index: 10; /* Damit der Knauf vor dem Automaten bleibt */
-            margin-left: 5px; /* Abstand zum Gehäuse */
+            z-index: 10; 
+            margin-left: 5px; 
             margin-bottom: 30px; 
             perspective: 800px; 
         }
@@ -238,7 +238,7 @@
             <p>Euer Ehren, Euch werden nacheinander die Angeklagten vorgeführt.</p>
             <p>👉 <strong>Wisch nach RECHTS:</strong> Unschuldig</p>
             <p>👈 <strong>Wisch nach LINKS:</strong> Verurteilung</p>
-            <p>🎰 <strong>Joker:</strong> Überlasst das Urteil dem Glücksrad! (Der "Alles oder Nichts" Button richtet gleich 3 Angeklagte auf einmal!)</p>
+            <p>🎰 <strong>Joker:</strong> Überlasst das Urteil dem Glücksrad! (Der "Doppelt oder Nichts" Button richtet gleich 2 Angeklagte auf einmal!)</p>
             <p>Die Sitzung dauert genau <strong>1 Minute</strong>. Die Sanduhr läuft dabei unerbittlich weiter!</p>
         </div>
     </div>
@@ -270,7 +270,7 @@
                 </div>
 
                 <div class="btn-aon-container">
-                    <button class="btn-aon" id="btn-aon">Alles<br>oder<br>Nichts</button>
+                    <button class="btn-aon" id="btn-aon">Doppelt<br>oder<br>Nichts</button>
                 </div>
             </div>
             <div class="slot-lever-container" id="slot-lever">
@@ -340,7 +340,7 @@
     // --- Joker Variables ---
     let isJokerModalOpen = false;
     let isSlotSpinning = false;
-    let isAonActive = false; // Alles oder Nichts Status
+    let isAonActive = false; // Doppelt oder Nichts Status
     let autoJudgeQueue = []; // Schlange für automatische Aburteilungen
     
     // Die möglichen Urteile mit ihren 3 Teilen
@@ -414,7 +414,7 @@
     document.getElementById('btn-start-game').addEventListener('click', startCountdown);
     document.getElementById('btn-restart').addEventListener('click', () => showScreen('start'));
 
-    // Alles oder Nichts Button Logic
+    // Doppelt oder Nichts Button Logic
     document.getElementById('btn-aon').addEventListener('click', function() {
         if(isSlotSpinning) return;
         isAonActive = !isAonActive;
@@ -462,10 +462,9 @@
             r3.innerText = finalParts[2];
             stick.classList.remove('pulled'); // Hebel springt zurück
             
-            // Urteil füllen & Queue für "Alles oder nichts"
+            // Urteil füllen & Queue für "Doppelt oder nichts"
             if(isAonActive) {
-                // Zwei weitere Aburteilungen für die NÄCHSTEN zwei in die Schlange stellen
-                autoJudgeQueue.push(finalResult.type);
+                // Nur EINE weitere Aburteilung für den NÄCHSTEN in die Schlange stellen (insgesamt 2 Angeklagte)
                 autoJudgeQueue.push(finalResult.type);
             }
 
@@ -632,7 +631,7 @@
             feedbackEl.style.opacity = 0;
             loadNextDefendant();
 
-            // Automatische Aburteilung aus der Schlange durchführen (falls "Alles oder Nichts" an war)
+            // Automatische Aburteilung aus der Schlange durchführen (falls "Doppelt oder Nichts" an war)
             if(autoJudgeQueue.length > 0 && timeLeft > 0) {
                 setTimeout(() => {
                     const nextVerdict = autoJudgeQueue.shift();
