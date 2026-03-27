@@ -112,7 +112,7 @@
             border: 5px solid #2b1d14;
             color: #fff;
             font-weight: bold;
-            font-size: 0.8rem; /* Etwas kleiner für das längere Wort */
+            font-size: 0.8rem;
             text-transform: uppercase;
             cursor: pointer;
             box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.3);
@@ -239,7 +239,7 @@
             <p>👉 <strong>Wisch nach RECHTS:</strong> Unschuldig</p>
             <p>👈 <strong>Wisch nach LINKS:</strong> Verurteilung</p>
             <p>🎰 <strong>Joker:</strong> Überlasst das Urteil dem Glücksrad! (Der "Doppelt oder Nichts" Button richtet gleich 2 Angeklagte auf einmal!)</p>
-            <p>Die Sitzung dauert genau <strong>1 Minute</strong>. Die Sanduhr läuft dabei unerbittlich weiter!</p>
+            <p>Die Sitzung dauert genau <strong>42 Sekunden</strong>. Die Sanduhr läuft dabei unerbittlich weiter!</p>
         </div>
     </div>
 
@@ -326,8 +326,8 @@
     let guiltyCount = 0;
     let innocentCount = 0;
     let gameTimer;
-    let timeLeft = 60;
-    const maxTime = 60;
+    let timeLeft = 42;
+    const maxTime = 42;
     
     let isSwiping = false;
     let startX = 0;
