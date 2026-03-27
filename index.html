@@ -46,12 +46,12 @@
         #time-bar-bg { position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: rgba(0,0,0,0.6); z-index: 40; border-bottom: 1px solid #2b1d14; }
         #time-bar { width: 100%; height: 100%; background: linear-gradient(to right, #e74c3c, #f1c40f); transition: width 1s linear; }
 
-        /* Angeklagter: Weiter unten positioniert (bottom: -10%) und etwas größer, damit Kanten verdeckt bleiben */
-        #defendant-container { position: absolute; bottom: -10%; left: 50%; transform: translateX(-50%); height: 75%; width: 100%; max-width: 400px; z-index: 5; touch-action: none; cursor: grab; }
+        /* Angeklagter: ÄNDERUNG: Kleiner gemacht (height: 60%) */
+        #defendant-container { position: absolute; bottom: -10%; left: 50%; transform: translateX(-50%); height: 60%; width: 100%; max-width: 400px; z-index: 5; touch-action: none; cursor: grab; }
         #defendant-container:active { cursor: grabbing; }
         #defendant-img { height: 100%; width: 100%; object-fit: contain; object-position: bottom center; pointer-events: none; }
         
-        /* Schnelle Animationen (auf 0.15s verkürzt für sehr schnelles Nachladen) */
+        /* Schnelle Animationen */
         .slide-up { animation: slideUp 0.15s cubic-bezier(0.175, 0.885, 0.32, 1) forwards; }
         @keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
         .swipe-right-anim { animation: swipeR 0.15s forwards; }
@@ -60,7 +60,8 @@
         @keyframes swipeL { to { transform: translate(-250%, 20px) rotate(-15deg); opacity: 0; } }
         
         #feedback-text { position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); font-size: 3.5rem; font-weight: bold; z-index: 20; opacity: 0; text-transform: uppercase; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); transition: opacity 0.15s; pointer-events: none; font-style: italic; }
-        .text-innocent { color: #d4af37; /* Gold für Freispruch */ }
+        /* ÄNDERUNG: Farbe auf Grün gesetzt */
+        .text-innocent { color: #2ecc71; /* Grün für Unschuldig */ }
         .text-guilty { color: #8b0000; /* Dunkelrot für Schuldig */ }
         
         #btn-anklage { position: absolute; top: 25px; right: 20px; font-size: 2rem; background: rgba(244, 228, 188, 0.9); border: 2px solid #8b5a2b; border-radius: 5px; width: 55px; height: 55px; display: flex; justify-content: center; align-items: center; z-index: 20; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); text-shadow: none; }
@@ -100,7 +101,7 @@
             <span class="close-btn" id="close-rules">&times;</span>
             <h2>Prozessordnung</h2>
             <p>Euer Ehren, Euch werden nacheinander die Angeklagten vorgeführt.</p>
-            <p>👉 <strong>Wisch nach RECHTS:</strong> Freispruch</p>
+            <p>👉 <strong>Wisch nach RECHTS:</strong> Unschuldig</p>
             <p>👈 <strong>Wisch nach LINKS:</strong> Verurteilung</p>
             <p>Die Sitzung dauert genau <strong>1 Minute</strong>. Oben rechts könnt Ihr jederzeit die Akte einsehen. Die Sanduhr läuft dabei unerbittlich weiter!</p>
         </div>
@@ -137,7 +138,7 @@
         <h1>Urteilsverkündung</h1>
         <div class="stat-box">
             <p>Schuldig gesprochen: <span class="stat-number" id="stat-guilty">0</span></p>
-            <p>Freigesprochen: <span class="stat-number" id="stat-innocent">0</span></p>
+            <p>Unschuldig gesprochen: <span class="stat-number" id="stat-innocent">0</span></p>
             <p id="judgment-phrase"></p>
         </div>
         <button class="btn btn-start" id="btn-restart">Neue Sitzung</button>
@@ -219,7 +220,6 @@
     // --- Game Logic ---
     function startCountdown() {
         showScreen('countdown');
-        // Zeigt "Die Sitzung ist eröffnet." für 1 Sekunde (1000ms)
         setTimeout(() => {
             startGame();
         }, 1000);
@@ -232,7 +232,7 @@
         timeBarEl.style.width = '100%';
         timeBarEl.style.transition = 'none'; // Reset ohne Animation
         
-        // Timeout erzwingt Reflow, damit die CSS Transition direkt beim Start greift
+        // Timeout erzwingt Reflow
         setTimeout(() => {
             timeBarEl.style.transition = 'width 1s linear';
         }, 50);
@@ -341,7 +341,8 @@
         
         if (verdict === 'innocent') {
             innocentCount++;
-            feedbackEl.innerText = "Freispruch!";
+            /* ÄNDERUNG: Text angepasst */
+            feedbackEl.innerText = "Unschuldig!";
             feedbackEl.className = "text-innocent";
             defendantEl.className = "swipe-right-anim";
         } else {
@@ -353,7 +354,7 @@
         
         feedbackEl.style.opacity = 1;
         
-        // Animation abwarten (jetzt extrem schnell: 150ms statt 300ms)
+        // Animation abwarten
         setTimeout(() => {
             feedbackEl.style.opacity = 0;
             loadNextDefendant();
