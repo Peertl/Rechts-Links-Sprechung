@@ -188,15 +188,11 @@
         #defendant-container:active { cursor: grabbing; }
         #defendant-img { height: 100%; width: 100%; object-fit: contain; object-position: bottom center; pointer-events: none; }
         
-        /* Animationen */
+        /* Animation - Reinrutschen bleibt schnell */
         .slide-up { animation: slideUp 0.15s cubic-bezier(0.175, 0.885, 0.32, 1) forwards; }
         @keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
-        .swipe-right-anim { animation: swipeR 0.15s forwards; }
-        @keyframes swipeR { to { transform: translate(150%, 20px) rotate(15deg); opacity: 0; } }
-        .swipe-left-anim { animation: swipeL 0.15s forwards; }
-        @keyframes swipeL { to { transform: translate(-250%, 20px) rotate(-15deg); opacity: 0; } }
         
-        #feedback-text { position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); font-size: 3.5rem; font-weight: bold; z-index: 20; opacity: 0; text-transform: uppercase; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); transition: opacity 0.15s; pointer-events: none; font-style: italic; }
+        #feedback-text { position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); font-size: 3.5rem; font-weight: bold; z-index: 20; opacity: 0; text-transform: uppercase; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); transition: opacity 0.3s ease-out; pointer-events: none; font-style: italic; }
         .text-innocent { color: #2ecc71; }
         .text-guilty { color: #e74c3c; }
         
@@ -340,10 +336,9 @@
     // --- Joker Variables ---
     let isJokerModalOpen = false;
     let isSlotSpinning = false;
-    let isAonActive = false; // Doppelt oder Nichts Status
-    let autoJudgeQueue = []; // Schlange für automatische Aburteilungen
+    let isAonActive = false; 
+    let autoJudgeQueue = []; 
     
-    // Die möglichen Urteile mit ihren 3 Teilen
     const slotOptions = [
         { type: 'innocent', parts: ["Frei", "spru", "ch!"] },
         { type: 'guilty', parts: ["Lebens", "läng", "lich"] },
@@ -353,7 +348,6 @@
         { type: 'guilty', isTagessatz: true, parts: ["", "Tages", "sätze"] }
     ];
 
-    // Zufällige Wortfetzen für den Ratter-Effekt
     const randomBlurText = ["Frei", "Tode", "Jura", "Tages", "sstr", "läng", "Stud", "afe", "ium", "lich", "99", "12", "Ab", "nach", "Berlin"];
 
     // --- DOM Elements ---
@@ -395,7 +389,6 @@
     document.getElementById('btn-anklage').addEventListener('click', () => document.getElementById('anklage-modal').classList.remove('hidden'));
     document.getElementById('close-anklage').addEventListener('click', () => document.getElementById('anklage-modal').classList.add('hidden'));
 
-    // Joker Automat öffnen / schließen
     document.getElementById('btn-joker').addEventListener('click', () => {
         document.getElementById('joker-modal').classList.remove('hidden');
         document.getElementById('reel-1').innerText = "?";
@@ -415,7 +408,6 @@
     document.getElementById('btn-start-game').addEventListener('click', startCountdown);
     document.getElementById('btn-restart').addEventListener('click', () => showScreen('start'));
 
-    // Doppelt oder Nichts Button Logic
     document.getElementById('btn-aon').addEventListener('click', function() {
         if(isSlotSpinning) return;
         isAonActive = !isAonActive;
@@ -434,56 +426,48 @@
         const r2 = document.getElementById('reel-2');
         const r3 = document.getElementById('reel-3');
 
-        // Bestimme das finale Ergebnis im Voraus
         let finalResult = slotOptions[Math.floor(Math.random() * slotOptions.length)];
         let finalParts = [...finalResult.parts];
         
         if (finalResult.isTagessatz) {
-            finalParts[0] = Math.floor(Math.random() * 90) + 10; // Zufallszahl 10-99
+            finalParts[0] = Math.floor(Math.random() * 90) + 10; 
         }
 
-        // Rollen rattern lassen
         let int1 = setInterval(() => r1.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
         let int2 = setInterval(() => r2.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
         let int3 = setInterval(() => r3.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
 
-        // Nacheinander stoppen (0.5s Abstand)
         setTimeout(() => {
             clearInterval(int1);
             r1.innerText = finalParts[0];
-        }, 2000); // Rolle 1 nach 2s
+        }, 2000); 
 
         setTimeout(() => {
             clearInterval(int2);
             r2.innerText = finalParts[1];
-        }, 2500); // Rolle 2 nach 2.5s
+        }, 2500); 
 
         setTimeout(() => {
             clearInterval(int3);
             r3.innerText = finalParts[2];
-            stick.classList.remove('pulled'); // Hebel springt zurück
+            stick.classList.remove('pulled'); 
             
-            // Urteil füllen & Queue für "Doppelt oder nichts"
             if(isAonActive) {
-                // Nur EINE weitere Aburteilung für den NÄCHSTEN in die Schlange stellen (insgesamt 2 Angeklagte)
                 autoJudgeQueue.push(finalResult.type);
             }
 
-            // Joker schließen und Urteil vollstrecken
             setTimeout(() => {
                 isSlotSpinning = false;
                 document.getElementById('joker-modal').classList.add('hidden');
                 isJokerModalOpen = false;
                 
-                // Button resetten
                 isAonActive = false;
                 document.getElementById('btn-aon').classList.remove('active');
                 
-                // Urteil für den AKTUELLEN Angeklagten
-                judge(finalResult.type);
+                judge(finalResult.type, 0); // Slotmachine wischt von der Mitte (0)
             }, 600);
 
-        }, 3000); // Rolle 3 nach 3s
+        }, 3000); 
     });
 
     // --- Game Logic ---
@@ -523,9 +507,11 @@
         const randomImg = defendants[Math.floor(Math.random() * defendants.length)];
         document.getElementById('defendant-img').src = randomImg;
         
+        // Zurücksetzen für den neuen Angeklagten
         defendantEl.className = ''; 
-        defendantEl.style.transform = 'translateX(-50%)';
         defendantEl.style.transition = 'none';
+        defendantEl.style.transform = 'translateX(-50%) rotate(0deg)';
+        defendantEl.style.opacity = '1'; // Sichtbarkeit garantieren!
         
         void defendantEl.offsetWidth; 
         defendantEl.classList.add('slide-up');
@@ -537,7 +523,7 @@
     function endGame() {
         clearInterval(gameTimer);
         
-        autoJudgeQueue = []; // Warteschlange leeren
+        autoJudgeQueue = []; 
         isSlotSpinning = false;
         isJokerModalOpen = false;
         document.getElementById('lever-stick').classList.remove('pulled');
@@ -600,9 +586,9 @@
         const threshold = 80;
 
         if (diffX > threshold) {
-            judge('innocent');
+            judge('innocent', diffX); // Übergib aktuelle Wisch-Position
         } else if (diffX < -threshold) {
-            judge('guilty');
+            judge('guilty', diffX); // Übergib aktuelle Wisch-Position
         } else {
             backgroundImgEl.style.backgroundImage = "url('Gericht-Vor-Urteil.png')";
             defendantEl.style.transition = 'transform 0.2s ease-out';
@@ -610,20 +596,28 @@
         }
     }
 
-    function judge(verdict) {
+    // currentDiffX sorgt dafür, dass die Animation genau da ansetzt, wo dein Finger aufhört
+    function judge(verdict, currentDiffX = 0) {
         isAnimating = true;
         const feedbackEl = document.getElementById('feedback-text');
+        
+        // Weiche Transition basierend auf der aktuellen Position (0.3s statt der alten 0.15s)
+        defendantEl.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
         
         if (verdict === 'innocent') {
             innocentCount++;
             feedbackEl.innerText = "Unschuldig!";
             feedbackEl.className = "text-innocent";
-            defendantEl.className = "swipe-right-anim";
+            // Fliegt von der aktuellen Position weiter nach rechts
+            defendantEl.style.transform = `translateX(calc(-50% + ${Math.max(currentDiffX, 0) + 400}px)) rotate(20deg)`;
+            defendantEl.style.opacity = '0';
         } else {
             guiltyCount++;
             feedbackEl.innerText = "Schuldig!";
             feedbackEl.className = "text-guilty";
-            defendantEl.className = "swipe-left-anim";
+            // Fliegt von der aktuellen Position weiter nach links
+            defendantEl.style.transform = `translateX(calc(-50% + ${Math.min(currentDiffX, 0) - 400}px)) rotate(-20deg)`;
+            defendantEl.style.opacity = '0';
         }
         
         feedbackEl.style.opacity = 1;
@@ -632,14 +626,13 @@
             feedbackEl.style.opacity = 0;
             loadNextDefendant();
 
-            // Automatische Aburteilung aus der Schlange durchführen (falls "Doppelt oder Nichts" an war)
             if(autoJudgeQueue.length > 0 && timeLeft > 0) {
                 setTimeout(() => {
                     const nextVerdict = autoJudgeQueue.shift();
-                    judge(nextVerdict);
-                }, 400); // Kurz warten bis der Neue hochgefahren ist, dann direkt verurteilen
+                    judge(nextVerdict, 0); 
+                }, 400); 
             }
-        }, 150);
+        }, 300); // 300ms warten, damit das Auge mitkommt
     }
 
     defendantEl.addEventListener('touchstart', handleTouchStart);
