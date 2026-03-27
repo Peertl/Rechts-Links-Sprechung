@@ -41,65 +41,103 @@
         /* --- Slot Machine Spezifisch --- */
         .slot-machine-wrapper {
             display: flex;
-            align-items: flex-end; /* Basis des Hebels am unteren Rand ausrichten */
+            align-items: flex-end; 
             position: relative;
         }
         
         /* Gehäuse */
         .slot-machine-container { 
             text-align: center; 
-            width: 320px; /* Feste Breite */
-            background: linear-gradient(135deg, #daa520, #8b6508); /* Gold/Messing Look */
+            width: 340px; 
+            background: linear-gradient(135deg, #daa520, #8b6508); 
             border: 6px solid #3e2723;
             border-radius: 15px 15px 5px 5px;
             box-shadow: 0 15px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,255,255,0.4);
-            padding: 40px 20px 30px 20px;
+            padding: 30px 15px 20px 15px;
             margin: 0;
             z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .slot-machine-container h2 {
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
             border-bottom: none;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
         }
 
-        /* Anzeige-Display */
+        /* 3-Rollen Anzeige */
         .slot-display-bg {
             background: #111;
             padding: 10px;
             border-radius: 8px;
             border: 4px inset #555;
             box-shadow: 0 5px 10px rgba(0,0,0,0.5);
-        }
-        .slot-display { 
-            background: #fdf6e3; 
-            color: #8b0000; 
-            font-size: 1.6rem; 
-            font-weight: bold; 
-            height: 60px; /* Feste Fensterhöhe */
             width: 100%;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            border: 2px solid #ccc;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
-            overflow: hidden; 
-            white-space: nowrap; /* Kein Zeilenumbruch */
+            margin-bottom: 20px;
+        }
+        .slot-reels-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .reel {
+            background: linear-gradient(to bottom, #ddd 0%, #fdf6e3 20%, #fdf6e3 80%, #ddd 100%);
+            color: #8b0000;
+            font-size: 1.2rem;
+            font-weight: bold;
+            height: 60px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #555;
+            border-radius: 3px;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.3);
+            overflow: hidden;
+            text-transform: uppercase;
         }
 
-        /* Hebel (Einarmiger Bandit) */
+        /* Alles oder Nichts Button */
+        .btn-aon-container {
+            margin-top: 10px;
+        }
+        .btn-aon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff4e50, #8b0000);
+            border: 5px solid #2b1d14;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            text-shadow: 1px 1px 2px #000;
+            line-height: 1.2;
+        }
+        .btn-aon.active {
+            background: radial-gradient(circle at 50% 50%, #ff7675, #d63031);
+            box-shadow: 0 0 25px #ff4e50, inset 0 0 15px #000;
+            border-color: #d4af37;
+            transform: scale(0.95) translateY(4px);
+            color: #fffacd;
+        }
+
+        /* Hebel */
         .slot-lever-container {
             width: 40px;
             height: 180px;
             position: relative;
             cursor: pointer;
-            z-index: 1;
-            margin-left: -5px; /* Etwas überlappen mit dem Gehäuse */
-            margin-bottom: 20px; /* Höhe der Basis anpassen */
-            perspective: 800px; /* Für den 3D-Zieheffekt */
+            z-index: 10; /* Damit der Knauf vor dem Automaten bleibt */
+            margin-left: 5px; /* Abstand zum Gehäuse */
+            margin-bottom: 30px; 
+            perspective: 800px; 
         }
         .lever-base {
             position: absolute;
@@ -109,13 +147,12 @@
             height: 80px;
             background: linear-gradient(to right, #555, #222);
             border: 2px solid #111;
-            border-left: none;
-            border-radius: 0 10px 10px 0;
+            border-radius: 5px 10px 10px 5px;
             box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
         }
         .lever-stick {
             position: absolute;
-            bottom: 40px; /* Verankert in der Mitte der Basis */
+            bottom: 40px; 
             left: 10px;
             width: 12px;
             height: 140px;
@@ -136,25 +173,22 @@
             border-radius: 50%;
             box-shadow: 0 5px 10px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.4);
         }
-        /* Klasse für die Zug-Animation */
         .lever-stick.pulled {
-            transform: rotateX(160deg); /* Zieht den Hebel "nach vorne/unten" in 3D */
+            transform: rotateX(160deg);
         }
         
-        /* Game Screen */
+        /* Game Screen & Core */
         #game-screen { background-color: transparent; padding: 0; justify-content: flex-end; }
         #background-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('Gericht-Vor-Urteil.png'); background-size: cover; background-position: center bottom; z-index: 1; transition: background-image 0.1s; }
         
-        /* Zeitbalken */
         #time-bar-bg { position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: rgba(0,0,0,0.6); z-index: 40; border-bottom: 1px solid #2b1d14; }
         #time-bar { width: 100%; height: 100%; background: linear-gradient(to right, #e74c3c, #f1c40f); transition: width 1s linear; }
 
-        /* Angeklagter */
         #defendant-container { position: absolute; bottom: -10%; left: 50%; transform: translateX(-50%); height: 60%; width: 100%; max-width: 400px; z-index: 5; touch-action: none; cursor: grab; }
         #defendant-container:active { cursor: grabbing; }
         #defendant-img { height: 100%; width: 100%; object-fit: contain; object-position: bottom center; pointer-events: none; }
         
-        /* Schnelle Animationen */
+        /* Animationen */
         .slide-up { animation: slideUp 0.15s cubic-bezier(0.175, 0.885, 0.32, 1) forwards; }
         @keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
         .swipe-right-anim { animation: swipeR 0.15s forwards; }
@@ -166,20 +200,16 @@
         .text-innocent { color: #2ecc71; }
         .text-guilty { color: #e74c3c; }
         
-        /* Buttons im Spiel */
         .game-top-btn { position: absolute; top: 25px; font-size: 2rem; background: rgba(244, 228, 188, 0.9); border: 2px solid #8b5a2b; border-radius: 5px; width: 55px; height: 55px; display: flex; justify-content: center; align-items: center; z-index: 20; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); text-shadow: none; }
         #btn-anklage { right: 20px; }
         #btn-joker { left: 20px; font-size: 1.8rem; }
         
-        /* Countdown Text */
         #countdown-text { font-size: 3rem; font-weight: bold; font-style: italic; color: #d4af37; text-shadow: 0 0 15px rgba(0,0,0,0.9); z-index: 30; padding: 20px; }
         
-        /* End Screen */
         .stat-box { background: rgba(0,0,0,0.4); border: 1px solid #d4af37; padding: 20px; border-radius: 5px; margin: 20px 0; width: 80%; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
         .stat-number { font-size: 2rem; font-weight: bold; color: #f4e4bc; }
         #judgment-phrase { font-size: 2rem; font-weight: bold; margin-top: 15px; color: #e67e22; font-style: italic; }
 
-        /* Loading indicator */
         #loading-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: #2b1d14; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .loader { border: 5px solid #3e2723; border-top: 5px solid #d4af37; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -208,7 +238,7 @@
             <p>Euer Ehren, Euch werden nacheinander die Angeklagten vorgeführt.</p>
             <p>👉 <strong>Wisch nach RECHTS:</strong> Unschuldig</p>
             <p>👈 <strong>Wisch nach LINKS:</strong> Verurteilung</p>
-            <p>🎰 <strong>Joker:</strong> Überlasst das Urteil dem Glücksrad!</p>
+            <p>🎰 <strong>Joker:</strong> Überlasst das Urteil dem Glücksrad! (Der "Alles oder Nichts" Button richtet gleich 3 Angeklagte auf einmal!)</p>
             <p>Die Sitzung dauert genau <strong>1 Minute</strong>. Die Sanduhr läuft dabei unerbittlich weiter!</p>
         </div>
     </div>
@@ -230,8 +260,17 @@
             <div class="modal-content slot-machine-container">
                 <span class="close-btn" id="close-joker">&times;</span>
                 <h2>Justitias Roulette</h2>
+                
                 <div class="slot-display-bg">
-                    <div class="slot-display" id="slot-result">? ? ?</div>
+                    <div class="slot-reels-container">
+                        <div class="reel" id="reel-1">?</div>
+                        <div class="reel" id="reel-2">?</div>
+                        <div class="reel" id="reel-3">?</div>
+                    </div>
+                </div>
+
+                <div class="btn-aon-container">
+                    <button class="btn-aon" id="btn-aon">Alles<br>oder<br>Nichts</button>
                 </div>
             </div>
             <div class="slot-lever-container" id="slot-lever">
@@ -301,20 +340,20 @@
     // --- Joker Variables ---
     let isJokerModalOpen = false;
     let isSlotSpinning = false;
-    let slotSpinInterval;
+    let isAonActive = false; // Alles oder Nichts Status
+    let autoJudgeQueue = []; // Schlange für automatische Aburteilungen
     
-    // Die möglichen Urteile
-    const slotOptions = ["Freispruch", "Lebenslänglich", "Todesstrafe", "Jura-Studium", "Tagessätze"];
+    // Die möglichen Urteile mit ihren 3 Teilen
+    const slotOptions = [
+        { type: 'innocent', parts: ["Frei", "spru", "ch!"] },
+        { type: 'guilty', parts: ["Lebens", "läng", "lich"] },
+        { type: 'guilty', parts: ["Tode", "sstr", "afe"] },
+        { type: 'guilty', parts: ["Jura", "Stud", "ium"] },
+        { type: 'guilty', isTagessatz: true, parts: ["", "Tages", "sätze"] }
+    ];
 
-    // Hilfsfunktion: Gibt den Text für das Display zurück (inkl. dynamischer Zahl bei Tagessätzen)
-    function getRandomSlotText() {
-        const opt = slotOptions[Math.floor(Math.random() * slotOptions.length)];
-        if (opt === "Tagessätze") {
-            const tage = Math.floor(Math.random() * 90) + 10; // Zufallszahl zwischen 10 und 99
-            return tage + " Tagessätze";
-        }
-        return opt;
-    }
+    // Zufällige Wortfetzen für den Ratter-Effekt
+    const randomBlurText = ["Frei", "Tode", "Jura", "Tages", "sstr", "läng", "Stud", "afe", "ium", "lich", "99", "12"];
 
     // --- DOM Elements ---
     const screens = {
@@ -336,7 +375,6 @@
             }
         };
         img.onerror = () => {
-            console.error("Bild konnte nicht geladen werden:", src);
             loadedImages++;
             if(loadedImages === imagesToPreload.length) {
                 document.getElementById('loading-overlay').classList.add('hidden');
@@ -346,24 +384,24 @@
         img.src = src;
     });
 
-    // --- Navigation & Modals ---
     function showScreen(screenName) {
         Object.values(screens).forEach(s => s.classList.add('hidden'));
         screens[screenName].classList.remove('hidden');
     }
 
-    // Regeln
     document.getElementById('btn-show-rules').addEventListener('click', () => document.getElementById('rules-modal').classList.remove('hidden'));
     document.getElementById('close-rules').addEventListener('click', () => document.getElementById('rules-modal').classList.add('hidden'));
-    
-    // Anklage
     document.getElementById('btn-anklage').addEventListener('click', () => document.getElementById('anklage-modal').classList.remove('hidden'));
     document.getElementById('close-anklage').addEventListener('click', () => document.getElementById('anklage-modal').classList.add('hidden'));
 
     // Joker Automat öffnen / schließen
     document.getElementById('btn-joker').addEventListener('click', () => {
         document.getElementById('joker-modal').classList.remove('hidden');
-        document.getElementById('slot-result').innerText = "? ? ?";
+        document.getElementById('reel-1').innerText = "?";
+        document.getElementById('reel-2').innerText = "?";
+        document.getElementById('reel-3').innerText = "?";
+        isAonActive = false;
+        document.getElementById('btn-aon').classList.remove('active');
         isJokerModalOpen = true;
     });
     
@@ -376,45 +414,76 @@
     document.getElementById('btn-start-game').addEventListener('click', startCountdown);
     document.getElementById('btn-restart').addEventListener('click', () => showScreen('start'));
 
+    // Alles oder Nichts Button Logic
+    document.getElementById('btn-aon').addEventListener('click', function() {
+        if(isSlotSpinning) return;
+        isAonActive = !isAonActive;
+        this.classList.toggle('active', isAonActive);
+    });
+
     // --- Slot Machine Logic (Hebel ziehen) ---
     document.getElementById('slot-lever').addEventListener('click', () => {
         if (isSlotSpinning || isAnimating) return; 
         
         isSlotSpinning = true;
         const stick = document.getElementById('lever-stick');
-        const slotDisplay = document.getElementById('slot-result');
-        
-        // CSS Klasse für die Zug-Animation hinzufügen
         stick.classList.add('pulled');
 
-        // Ratter-Effekt: Text wechselt schnell
-        slotSpinInterval = setInterval(() => {
-            slotDisplay.innerText = getRandomSlotText();
-        }, 100);
+        const r1 = document.getElementById('reel-1');
+        const r2 = document.getElementById('reel-2');
+        const r3 = document.getElementById('reel-3');
 
-        // Nach 2 Sekunden stoppen und Urteil fällen
+        // Bestimme das finale Ergebnis im Voraus
+        let finalResult = slotOptions[Math.floor(Math.random() * slotOptions.length)];
+        let finalParts = [...finalResult.parts];
+        
+        if (finalResult.isTagessatz) {
+            finalParts[0] = Math.floor(Math.random() * 90) + 10; // Zufallszahl 10-99
+        }
+
+        // Rollen rattern lassen
+        let int1 = setInterval(() => r1.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
+        let int2 = setInterval(() => r2.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
+        let int3 = setInterval(() => r3.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
+
+        // Nacheinander stoppen (0.5s Abstand)
         setTimeout(() => {
-            clearInterval(slotSpinInterval);
-            const finalResultText = getRandomSlotText();
-            slotDisplay.innerText = finalResultText;
+            clearInterval(int1);
+            r1.innerText = finalParts[0];
+        }, 2000); // Rolle 1 nach 2s
+
+        setTimeout(() => {
+            clearInterval(int2);
+            r2.innerText = finalParts[1];
+        }, 2500); // Rolle 2 nach 2.5s
+
+        setTimeout(() => {
+            clearInterval(int3);
+            r3.innerText = finalParts[2];
+            stick.classList.remove('pulled'); // Hebel springt zurück
             
-            // Hebel schnappt wieder hoch
-            stick.classList.remove('pulled');
-            
-            // Urteil auswerten: Nur "Freispruch" wäscht rein!
-            if (finalResultText === "Freispruch") {
-                judge('innocent');
-            } else {
-                // Alles andere (Lebenslänglich, Todesstrafe, Jura-Studium, Tagessätze) ist Schuldig
-                judge('guilty');
+            // Urteil füllen & Queue für "Alles oder nichts"
+            if(isAonActive) {
+                // Zwei weitere Aburteilungen für die NÄCHSTEN zwei in die Schlange stellen
+                autoJudgeQueue.push(finalResult.type);
+                autoJudgeQueue.push(finalResult.type);
             }
-            
-            // Kurz warten, bis Wisch-Animation fertig ist, dann wieder freigeben
+
+            // Joker schließen und Urteil vollstrecken
             setTimeout(() => {
                 isSlotSpinning = false;
-            }, 300);
+                document.getElementById('joker-modal').classList.add('hidden');
+                isJokerModalOpen = false;
+                
+                // Button resetten
+                isAonActive = false;
+                document.getElementById('btn-aon').classList.remove('active');
+                
+                // Urteil für den AKTUELLEN Angeklagten
+                judge(finalResult.type);
+            }, 600);
 
-        }, 2000);
+        }, 3000); // Rolle 3 nach 3s
     });
 
     // --- Game Logic ---
@@ -428,6 +497,7 @@
     function startGame() {
         guiltyCount = 0;
         innocentCount = 0;
+        autoJudgeQueue = [];
         timeLeft = maxTime;
         timeBarEl.style.width = '100%';
         timeBarEl.style.transition = 'none';
@@ -467,8 +537,7 @@
     function endGame() {
         clearInterval(gameTimer);
         
-        // Aufräumen falls Automat offen
-        clearInterval(slotSpinInterval);
+        autoJudgeQueue = []; // Warteschlange leeren
         isSlotSpinning = false;
         isJokerModalOpen = false;
         document.getElementById('lever-stick').classList.remove('pulled');
@@ -500,7 +569,7 @@
 
     // --- Swipe Mechanics ---
     function handleTouchStart(e) {
-        if (isAnimating || isJokerModalOpen || !document.getElementById('anklage-modal').classList.contains('hidden')) return;
+        if (isAnimating || isJokerModalOpen || !document.getElementById('anklage-modal').classList.contains('hidden') || autoJudgeQueue.length > 0) return;
         
         isSwiping = true;
         startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
@@ -508,7 +577,7 @@
     }
 
     function handleTouchMove(e) {
-        if (!isSwiping || isAnimating || isJokerModalOpen) return;
+        if (!isSwiping || isAnimating || isJokerModalOpen || autoJudgeQueue.length > 0) return;
         
         currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
         const diffX = currentX - startX;
@@ -522,7 +591,7 @@
     }
 
     function handleTouchEnd(e) {
-        if (!isSwiping || isAnimating || isJokerModalOpen) return;
+        if (!isSwiping || isAnimating || isJokerModalOpen || autoJudgeQueue.length > 0) return;
         
         isSwiping = false;
         
@@ -562,6 +631,14 @@
         setTimeout(() => {
             feedbackEl.style.opacity = 0;
             loadNextDefendant();
+
+            // Automatische Aburteilung aus der Schlange durchführen (falls "Alles oder Nichts" an war)
+            if(autoJudgeQueue.length > 0 && timeLeft > 0) {
+                setTimeout(() => {
+                    const nextVerdict = autoJudgeQueue.shift();
+                    judge(nextVerdict);
+                }, 400); // Kurz warten bis der Neue hochgefahren ist, dann direkt verurteilen
+            }
         }, 150);
     }
 
