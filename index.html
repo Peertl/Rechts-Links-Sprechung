@@ -23,7 +23,6 @@
         .btn { padding: 15px 30px; margin: 10px; font-size: 1.2rem; cursor: pointer; border: 2px solid #2b1d14; border-radius: 4px; background: linear-gradient(to bottom, #8d6e63, #5d4037); color: #fdf6e3; font-weight: bold; transition: transform 0.1s; box-shadow: 0 4px 6px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px #000; }
         .btn:active { transform: scale(0.95); }
         .btn-start { background: linear-gradient(to bottom, #d4af37, #aa8022); color: #2b1d14; border: 2px solid #554011; text-shadow: none; font-size: 1.5rem; }
-        .btn:disabled { filter: grayscale(100%); cursor: not-allowed; transform: none; }
         
         /* Modals */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 50; display: flex; justify-content: center; align-items: center; }
@@ -37,11 +36,110 @@
         .modal-content h2 { margin-bottom: 15px; color: #5d4037; font-style: italic; border-bottom: 2px dashed #8b5a2b; padding-bottom: 5px; }
         .modal-content p { margin-bottom: 10px; line-height: 1.5; font-size: 1.1rem; }
         .modal-content strong { color: #8b0000; font-family: 'Georgia', serif; }
-        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; color: #5d4037; }
+        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; color: #5d4037; z-index: 10; }
         
-        /* Slot Machine Spezifisch */
-        .slot-machine-container { text-align: center; }
-        .slot-display { background: #1a100c; color: #d4af37; font-size: 1.8rem; font-weight: bold; padding: 20px 10px; margin: 20px 0; border: 4px inset #8b5a2b; border-radius: 10px; text-transform: uppercase; letter-spacing: 2px; height: 80px; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        /* --- Slot Machine Spezifisch --- */
+        .slot-machine-wrapper {
+            display: flex;
+            align-items: flex-end; /* Basis des Hebels am unteren Rand ausrichten */
+            position: relative;
+        }
+        
+        /* Gehäuse */
+        .slot-machine-container { 
+            text-align: center; 
+            width: 320px; /* Feste Breite */
+            background: linear-gradient(135deg, #daa520, #8b6508); /* Gold/Messing Look */
+            border: 6px solid #3e2723;
+            border-radius: 15px 15px 5px 5px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,255,255,0.4);
+            padding: 40px 20px 30px 20px;
+            margin: 0;
+            z-index: 2;
+        }
+        .slot-machine-container h2 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            border-bottom: none;
+            margin-bottom: 20px;
+        }
+
+        /* Anzeige-Display */
+        .slot-display-bg {
+            background: #111;
+            padding: 10px;
+            border-radius: 8px;
+            border: 4px inset #555;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        }
+        .slot-display { 
+            background: #fdf6e3; 
+            color: #8b0000; 
+            font-size: 1.6rem; 
+            font-weight: bold; 
+            height: 60px; /* Feste Fensterhöhe */
+            width: 100%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            border: 2px solid #ccc;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+            overflow: hidden; 
+            white-space: nowrap; /* Kein Zeilenumbruch */
+        }
+
+        /* Hebel (Einarmiger Bandit) */
+        .slot-lever-container {
+            width: 40px;
+            height: 180px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1;
+            margin-left: -5px; /* Etwas überlappen mit dem Gehäuse */
+            margin-bottom: 20px; /* Höhe der Basis anpassen */
+            perspective: 800px; /* Für den 3D-Zieheffekt */
+        }
+        .lever-base {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 80px;
+            background: linear-gradient(to right, #555, #222);
+            border: 2px solid #111;
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
+        }
+        .lever-stick {
+            position: absolute;
+            bottom: 40px; /* Verankert in der Mitte der Basis */
+            left: 10px;
+            width: 12px;
+            height: 140px;
+            background: linear-gradient(to right, #e0e0e0, #888, #e0e0e0);
+            border-radius: 6px;
+            transform-origin: bottom center;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: rotateX(0deg);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        .lever-knob {
+            position: absolute;
+            top: -20px;
+            left: -14px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 12px 12px, #ff4e50, #8b0000);
+            border-radius: 50%;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.4);
+        }
+        /* Klasse für die Zug-Animation */
+        .lever-stick.pulled {
+            transform: rotateX(160deg); /* Zieht den Hebel "nach vorne/unten" in 3D */
+        }
         
         /* Game Screen */
         #game-screen { background-color: transparent; padding: 0; justify-content: flex-end; }
@@ -128,11 +226,20 @@
     </div>
 
     <div id="joker-modal" class="modal-overlay hidden">
-        <div class="modal-content slot-machine-container">
-            <span class="close-btn" id="close-joker">&times;</span>
-            <h2>Das Rad der Justiz</h2>
-            <div class="slot-display" id="slot-result">? ? ?</div>
-            <button class="btn btn-start" id="btn-spin-slot">Hebel ziehen!</button>
+        <div class="slot-machine-wrapper">
+            <div class="modal-content slot-machine-container">
+                <span class="close-btn" id="close-joker">&times;</span>
+                <h2>Justitias Roulette</h2>
+                <div class="slot-display-bg">
+                    <div class="slot-display" id="slot-result">? ? ?</div>
+                </div>
+            </div>
+            <div class="slot-lever-container" id="slot-lever">
+                <div class="lever-base"></div>
+                <div class="lever-stick" id="lever-stick">
+                    <div class="lever-knob"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -195,6 +302,19 @@
     let isJokerModalOpen = false;
     let isSlotSpinning = false;
     let slotSpinInterval;
+    
+    // Die möglichen Urteile
+    const slotOptions = ["Freispruch", "Lebenslänglich", "Todesstrafe", "Jura-Studium", "Tagessätze"];
+
+    // Hilfsfunktion: Gibt den Text für das Display zurück (inkl. dynamischer Zahl bei Tagessätzen)
+    function getRandomSlotText() {
+        const opt = slotOptions[Math.floor(Math.random() * slotOptions.length)];
+        if (opt === "Tagessätze") {
+            const tage = Math.floor(Math.random() * 90) + 10; // Zufallszahl zwischen 10 und 99
+            return tage + " Tagessätze";
+        }
+        return opt;
+    }
 
     // --- DOM Elements ---
     const screens = {
@@ -240,7 +360,7 @@
     document.getElementById('btn-anklage').addEventListener('click', () => document.getElementById('anklage-modal').classList.remove('hidden'));
     document.getElementById('close-anklage').addEventListener('click', () => document.getElementById('anklage-modal').classList.add('hidden'));
 
-    // Joker Automat
+    // Joker Automat öffnen / schließen
     document.getElementById('btn-joker').addEventListener('click', () => {
         document.getElementById('joker-modal').classList.remove('hidden');
         document.getElementById('slot-result').innerText = "? ? ?";
@@ -248,7 +368,7 @@
     });
     
     document.getElementById('close-joker').addEventListener('click', () => {
-        if(isSlotSpinning) return; // Verhindert das Schließen während es dreht
+        if(isSlotSpinning) return; 
         document.getElementById('joker-modal').classList.add('hidden');
         isJokerModalOpen = false;
     });
@@ -256,40 +376,43 @@
     document.getElementById('btn-start-game').addEventListener('click', startCountdown);
     document.getElementById('btn-restart').addEventListener('click', () => showScreen('start'));
 
-    // --- Slot Machine Logic ---
-    document.getElementById('btn-spin-slot').addEventListener('click', () => {
-        if (isSlotSpinning || isAnimating) return; // Nichts tun, wenn schon gedreht oder gewischt wird
+    // --- Slot Machine Logic (Hebel ziehen) ---
+    document.getElementById('slot-lever').addEventListener('click', () => {
+        if (isSlotSpinning || isAnimating) return; 
         
         isSlotSpinning = true;
-        const spinBtn = document.getElementById('btn-spin-slot');
+        const stick = document.getElementById('lever-stick');
         const slotDisplay = document.getElementById('slot-result');
-        const options = ["Freispruch", "Lebenslänglich"];
         
-        spinBtn.disabled = true; // Button deaktivieren
+        // CSS Klasse für die Zug-Animation hinzufügen
+        stick.classList.add('pulled');
 
         // Ratter-Effekt: Text wechselt schnell
         slotSpinInterval = setInterval(() => {
-            slotDisplay.innerText = options[Math.floor(Math.random() * options.length)];
+            slotDisplay.innerText = getRandomSlotText();
         }, 100);
 
         // Nach 2 Sekunden stoppen und Urteil fällen
         setTimeout(() => {
             clearInterval(slotSpinInterval);
-            const finalResult = options[Math.floor(Math.random() * options.length)];
-            slotDisplay.innerText = finalResult;
+            const finalResultText = getRandomSlotText();
+            slotDisplay.innerText = finalResultText;
             
-            // Führe das entsprechende Urteil aus
-            if (finalResult === "Freispruch") {
+            // Hebel schnappt wieder hoch
+            stick.classList.remove('pulled');
+            
+            // Urteil auswerten: Nur "Freispruch" wäscht rein!
+            if (finalResultText === "Freispruch") {
                 judge('innocent');
             } else {
+                // Alles andere (Lebenslänglich, Todesstrafe, Jura-Studium, Tagessätze) ist Schuldig
                 judge('guilty');
             }
             
-            // Nach dem Urteil wieder bereit machen für den nächsten Dreh
+            // Kurz warten, bis Wisch-Animation fertig ist, dann wieder freigeben
             setTimeout(() => {
                 isSlotSpinning = false;
-                spinBtn.disabled = false;
-            }, 300); // Kurz warten bis die Wisch-Animation fertig ist
+            }, 300);
 
         }, 2000);
     });
@@ -309,7 +432,6 @@
         timeBarEl.style.width = '100%';
         timeBarEl.style.transition = 'none';
         
-        // Timeout erzwingt Reflow
         setTimeout(() => {
             timeBarEl.style.transition = 'width 1s linear';
         }, 50);
@@ -331,16 +453,13 @@
         const randomImg = defendants[Math.floor(Math.random() * defendants.length)];
         document.getElementById('defendant-img').src = randomImg;
         
-        // Container zurücksetzen
         defendantEl.className = ''; 
         defendantEl.style.transform = 'translateX(-50%)';
         defendantEl.style.transition = 'none';
         
-        // Reflow erzwingen und Auftauch-Animation hinzufügen
         void defendantEl.offsetWidth; 
         defendantEl.classList.add('slide-up');
         
-        // Hintergrund zurücksetzen
         backgroundImgEl.style.backgroundImage = "url('Gericht-Vor-Urteil.png')";
         isAnimating = false;
     }
@@ -348,11 +467,11 @@
     function endGame() {
         clearInterval(gameTimer);
         
-        // Joker aufräumen, falls er offen war
+        // Aufräumen falls Automat offen
         clearInterval(slotSpinInterval);
         isSlotSpinning = false;
         isJokerModalOpen = false;
-        document.getElementById('btn-spin-slot').disabled = false;
+        document.getElementById('lever-stick').classList.remove('pulled');
         document.getElementById('joker-modal').classList.add('hidden');
         document.getElementById('anklage-modal').classList.add('hidden');
         document.getElementById('rules-modal').classList.add('hidden');
@@ -381,7 +500,6 @@
 
     // --- Swipe Mechanics ---
     function handleTouchStart(e) {
-        // WICHTIG: Wenn ein Modal offen ist oder eine Animation läuft, ignorieren wir Wischgesten!
         if (isAnimating || isJokerModalOpen || !document.getElementById('anklage-modal').classList.contains('hidden')) return;
         
         isSwiping = true;
@@ -447,7 +565,6 @@
         }, 150);
     }
 
-    // Event Listeners for swiping (Mouse & Touch)
     defendantEl.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchmove', handleTouchMove, {passive: false});
     document.addEventListener('touchend', handleTouchEnd);
