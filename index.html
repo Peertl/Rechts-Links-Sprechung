@@ -39,156 +39,31 @@
         .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; color: #5d4037; z-index: 10; }
         
         /* --- Slot Machine Spezifisch --- */
-        .slot-machine-wrapper {
-            display: flex;
-            align-items: flex-end; 
-            position: relative;
-        }
-        
-        /* Gehäuse */
-        .slot-machine-container { 
-            text-align: center; 
-            width: 340px; 
-            background: linear-gradient(135deg, #daa520, #8b6508); 
-            border: 6px solid #3e2723;
-            border-radius: 15px 15px 5px 5px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,255,255,0.4);
-            padding: 30px 15px 20px 15px;
-            margin: 0;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .slot-machine-container h2 {
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            border-bottom: none;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        /* 3-Rollen Anzeige */
-        .slot-display-bg {
-            background: #111;
-            padding: 10px;
-            border-radius: 8px;
-            border: 4px inset #555;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        .slot-reels-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 5px;
-        }
-        .reel {
-            background: linear-gradient(to bottom, #ddd 0%, #fdf6e3 20%, #fdf6e3 80%, #ddd 100%);
-            color: #8b0000;
-            font-size: 1.2rem;
-            font-weight: bold;
-            height: 60px;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid #555;
-            border-radius: 3px;
-            box-shadow: inset 0 5px 10px rgba(0,0,0,0.3);
-            overflow: hidden;
-            text-transform: uppercase;
-        }
-
-        /* Doppelt oder Nichts Button */
-        .btn-aon-container {
-            margin-top: 10px;
-        }
-        .btn-aon {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ff4e50, #8b0000);
-            border: 5px solid #2b1d14;
-            color: #fff;
-            font-weight: bold;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.3);
-            transition: all 0.2s;
-            text-shadow: 1px 1px 2px #000;
-            line-height: 1.2;
-        }
-        .btn-aon.active {
-            background: radial-gradient(circle at 50% 50%, #ff7675, #d63031);
-            box-shadow: 0 0 25px #ff4e50, inset 0 0 15px #000;
-            border-color: #d4af37;
-            transform: scale(0.95) translateY(4px);
-            color: #fffacd;
-        }
-
-        /* Hebel */
-        .slot-lever-container {
-            width: 40px;
-            height: 180px;
-            position: relative;
-            cursor: pointer;
-            z-index: 10; 
-            margin-left: 5px; 
-            margin-bottom: 30px; 
-            perspective: 800px; 
-        }
-        .lever-base {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 30px;
-            height: 80px;
-            background: linear-gradient(to right, #555, #222);
-            border: 2px solid #111;
-            border-radius: 5px 10px 10px 5px;
-            box-shadow: 5px 5px 10px rgba(0,0,0,0.7);
-        }
-        .lever-stick {
-            position: absolute;
-            bottom: 40px; 
-            left: 10px;
-            width: 12px;
-            height: 140px;
-            background: linear-gradient(to right, #e0e0e0, #888, #e0e0e0);
-            border-radius: 6px;
-            transform-origin: bottom center;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            transform: rotateX(0deg);
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-        .lever-knob {
-            position: absolute;
-            top: -20px;
-            left: -14px;
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle at 12px 12px, #ff4e50, #8b0000);
-            border-radius: 50%;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.4);
-        }
-        .lever-stick.pulled {
-            transform: rotateX(160deg);
-        }
+        .slot-machine-wrapper { display: flex; align-items: flex-end; position: relative; }
+        .slot-machine-container { text-align: center; width: 340px; background: linear-gradient(135deg, #daa520, #8b6508); border: 6px solid #3e2723; border-radius: 15px 15px 5px 5px; box-shadow: 0 15px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,255,255,0.4); padding: 30px 15px 20px 15px; margin: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+        .slot-machine-container h2 { color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); border-bottom: none; margin-bottom: 15px; font-size: 1.5rem; }
+        .slot-display-bg { background: #111; padding: 10px; border-radius: 8px; border: 4px inset #555; box-shadow: 0 5px 10px rgba(0,0,0,0.5); width: 100%; margin-bottom: 20px; }
+        .slot-reels-container { display: flex; justify-content: space-between; gap: 5px; }
+        .reel { background: linear-gradient(to bottom, #ddd 0%, #fdf6e3 20%, #fdf6e3 80%, #ddd 100%); color: #8b0000; font-size: 1.2rem; font-weight: bold; height: 60px; flex: 1; display: flex; justify-content: center; align-items: center; border: 2px solid #555; border-radius: 3px; box-shadow: inset 0 5px 10px rgba(0,0,0,0.3); overflow: hidden; text-transform: uppercase; }
+        .btn-aon-container { margin-top: 10px; }
+        .btn-aon { width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #ff4e50, #8b0000); border: 5px solid #2b1d14; color: #fff; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.3); transition: all 0.2s; text-shadow: 1px 1px 2px #000; line-height: 1.2; }
+        .btn-aon.active { background: radial-gradient(circle at 50% 50%, #ff7675, #d63031); box-shadow: 0 0 25px #ff4e50, inset 0 0 15px #000; border-color: #d4af37; transform: scale(0.95) translateY(4px); color: #fffacd; }
+        .slot-lever-container { width: 40px; height: 180px; position: relative; cursor: pointer; z-index: 10; margin-left: 5px; margin-bottom: 30px; perspective: 800px; }
+        .lever-base { position: absolute; bottom: 0; left: 0; width: 30px; height: 80px; background: linear-gradient(to right, #555, #222); border: 2px solid #111; border-radius: 5px 10px 10px 5px; box-shadow: 5px 5px 10px rgba(0,0,0,0.7); }
+        .lever-stick { position: absolute; bottom: 40px; left: 10px; width: 12px; height: 140px; background: linear-gradient(to right, #e0e0e0, #888, #e0e0e0); border-radius: 6px; transform-origin: bottom center; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); transform: rotateX(0deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        .lever-knob { position: absolute; top: -20px; left: -14px; width: 40px; height: 40px; background: radial-gradient(circle at 12px 12px, #ff4e50, #8b0000); border-radius: 50%; box-shadow: 0 5px 10px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.4); }
+        .lever-stick.pulled { transform: rotateX(160deg); }
         
         /* Game Screen & Core */
         #game-screen { background-color: transparent; padding: 0; justify-content: flex-end; }
         #background-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('Gericht-Vor-Urteil.png'); background-size: cover; background-position: center bottom; z-index: 1; transition: background-image 0.1s; }
-        
         #time-bar-bg { position: absolute; top: 0; left: 0; width: 100%; height: 10px; background: rgba(0,0,0,0.6); z-index: 40; border-bottom: 1px solid #2b1d14; }
         #time-bar { width: 100%; height: 100%; background: linear-gradient(to right, #e74c3c, #f1c40f); transition: width 1s linear; }
-
         #defendant-container { position: absolute; bottom: -10%; left: 50%; height: 60%; width: 100%; max-width: 400px; z-index: 5; touch-action: none; cursor: grab; }
         #defendant-container:active { cursor: grabbing; }
         #defendant-img { height: 100%; width: 100%; object-fit: contain; object-position: bottom center; pointer-events: none; }
         
-        /* Animation - Reinrutschen bleibt schnell */
+        /* Animation */
         .slide-up { animation: slideUp 0.15s cubic-bezier(0.175, 0.885, 0.32, 1) forwards; }
         @keyframes slideUp { from { transform: translate(-50%, 100%); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
         
@@ -205,6 +80,22 @@
         .stat-box { background: rgba(0,0,0,0.4); border: 1px solid #d4af37; padding: 20px; border-radius: 5px; margin: 20px 0; width: 80%; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
         .stat-number { font-size: 2rem; font-weight: bold; color: #f4e4bc; }
         #judgment-phrase { font-size: 2rem; font-weight: bold; margin-top: 15px; color: #e67e22; font-style: italic; }
+
+        /* Farbspektrum Styles */
+        .stat-line { margin: 15px 0 5px 0; font-size: 1.1rem;}
+        .continuum-container { width: 100%; padding: 15px 0 5px 0; position: relative; }
+        .continuum-bar { 
+            width: 100%; height: 20px; border-radius: 10px; 
+            /* Spektrum von Sehr-dunkel bis Sehr-hell */
+            background: linear-gradient(to right, #4B2A13, #553118, #6B4023, #825231, #9C623B, #AC7854, #CC916A, #DBA682, #FDC7A1, #FFDCC4, #FFEEE3); 
+            border: 2px solid #d4af37; position: relative; 
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+        }
+        .continuum-marker { 
+            position: absolute; top: -18px; transform: translateX(-50%); 
+            color: #fdf6e3; font-size: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.9); 
+            transition: left 0.5s ease; z-index: 5;
+        }
 
         #loading-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: #2b1d14; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .loader { border: 5px solid #3e2723; border-top: 5px solid #d4af37; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;}
@@ -298,8 +189,21 @@
     <div id="end-screen" class="screen hidden">
         <h1>Urteilsverkündung</h1>
         <div class="stat-box">
-            <p>Schuldig gesprochen: <span class="stat-number" id="stat-guilty">0</span></p>
-            <p>Unschuldig gesprochen: <span class="stat-number" id="stat-innocent">0</span></p>
+            
+            <p class="stat-line">Schuldig gesprochen: <span class="stat-number" id="stat-guilty">0</span></p>
+            <div class="continuum-container">
+                <div class="continuum-bar">
+                    <div class="continuum-marker" id="marker-guilty" style="display: none;">▼</div>
+                </div>
+            </div>
+
+            <p class="stat-line">Unschuldig gesprochen: <span class="stat-number" id="stat-innocent">0</span></p>
+            <div class="continuum-container">
+                <div class="continuum-bar">
+                    <div class="continuum-marker" id="marker-innocent" style="display: none;">▼</div>
+                </div>
+            </div>
+
             <p id="judgment-phrase"></p>
         </div>
         <button class="btn btn-start" id="btn-restart">Neue Sitzung</button>
@@ -309,18 +213,31 @@
 
 <script>
     // --- Configuration & Assets ---
-    const imagesToPreload = [
-        'Gericht-Vor-Urteil.png', 'Gericht-Nach-Urteil.png',
-        'Angeklagter_Hell-1.png', 'Angeklagter_Hell-2.png', 'Angeklagter_Hell-3.png',
-        'Angeklagter_Mittel-1.png', 'Angeklagter_Mittel-2.png',
-        'Angeklagter_Dunkel-1.png', 'Angeklagter_Dunkel-2.png', 'Angeklagter_Dunkel-3.png'
+    // Definiere die Kaffeebohnen/Angeklagten mit ihren Farbwerten (0 bis 10 für die Durchschnittsberechnung)
+    const coffeeBeans = [
+        { id: 'sehr-dunkel', src: 'Angeklagter_Sehr-Dunkel.png', value: 0 },
+        { id: 'dunkel-3', src: 'Angeklagter_Dunkel-3.png', value: 1 },
+        { id: 'dunkel-2', src: 'Angeklagter_Dunkel-2.png', value: 2 },
+        { id: 'dunkel-1', src: 'Angeklagter_Dunkel-1.png', value: 3 },
+        { id: 'mittel-3', src: 'Angeklagter_Mittel-3.png', value: 4 },
+        { id: 'mittel-2', src: 'Angeklagter_Mittel-2.png', value: 5 },
+        { id: 'mittel-1', src: 'Angeklagter_Mittel-1.png', value: 6 },
+        { id: 'hell-3', src: 'Angeklagter_Hell-3.png', value: 7 },
+        { id: 'hell-2', src: 'Angeklagter_Hell-2.png', value: 8 },
+        { id: 'hell-1', src: 'Angeklagter_Hell-1.png', value: 9 },
+        { id: 'sehr-hell', src: 'Angeklagter_Sehr-Hell.png', value: 10 }
     ];
-    
-    const defendants = imagesToPreload.slice(2);
+
+    const staticImages = ['Gericht-Vor-Urteil.png', 'Gericht-Nach-Urteil.png'];
+    const imagesToPreload = staticImages.concat(coffeeBeans.map(b => b.src));
 
     // --- State Variables ---
+    let currentDefendant = null;
     let guiltyCount = 0;
     let innocentCount = 0;
+    let guiltyValues = [];
+    let innocentValues = [];
+    
     let gameTimer;
     let timeLeft = 42;
     const maxTime = 42;
@@ -437,15 +354,8 @@
         let int2 = setInterval(() => r2.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
         let int3 = setInterval(() => r3.innerText = randomBlurText[Math.floor(Math.random()*randomBlurText.length)], 100);
 
-        setTimeout(() => {
-            clearInterval(int1);
-            r1.innerText = finalParts[0];
-        }, 2000); 
-
-        setTimeout(() => {
-            clearInterval(int2);
-            r2.innerText = finalParts[1];
-        }, 2500); 
+        setTimeout(() => { clearInterval(int1); r1.innerText = finalParts[0]; }, 2000); 
+        setTimeout(() => { clearInterval(int2); r2.innerText = finalParts[1]; }, 2500); 
 
         setTimeout(() => {
             clearInterval(int3);
@@ -481,6 +391,8 @@
     function startGame() {
         guiltyCount = 0;
         innocentCount = 0;
+        guiltyValues = [];
+        innocentValues = [];
         autoJudgeQueue = [];
         timeLeft = maxTime;
         timeBarEl.style.width = '100%';
@@ -504,10 +416,9 @@
     }
 
     function loadNextDefendant() {
-        const randomImg = defendants[Math.floor(Math.random() * defendants.length)];
-        document.getElementById('defendant-img').src = randomImg;
+        currentDefendant = coffeeBeans[Math.floor(Math.random() * coffeeBeans.length)];
+        document.getElementById('defendant-img').src = currentDefendant.src;
         
-        // Komplettes Zurücksetzen der Inline-Styles
         defendantEl.className = ''; 
         defendantEl.style.transition = 'none';
         defendantEl.style.transform = 'translateX(-50%) rotate(0deg)';
@@ -516,7 +427,6 @@
         void defendantEl.offsetWidth; 
         defendantEl.classList.add('slide-up');
         
-        // WICHTIG: Entferne die Slide-up Klasse nach Beendigung, damit der Transform wieder vom Finger gesteuert werden kann!
         defendantEl.onanimationend = () => {
             defendantEl.classList.remove('slide-up');
         };
@@ -541,14 +451,34 @@
         document.getElementById('stat-guilty').innerText = guiltyCount;
         document.getElementById('stat-innocent').innerText = innocentCount;
         
+        // --- Berechne Durchschnittsfarben für die Kontinua ---
+        const markerGuilty = document.getElementById('marker-guilty');
+        if (guiltyValues.length > 0) {
+            const avgGuilty = guiltyValues.reduce((a, b) => a + b, 0) / guiltyValues.length;
+            markerGuilty.style.left = `${(avgGuilty / 10) * 100}%`;
+            markerGuilty.style.display = 'block';
+        } else {
+            markerGuilty.style.display = 'none';
+        }
+
+        const markerInnocent = document.getElementById('marker-innocent');
+        if (innocentValues.length > 0) {
+            const avgInnocent = innocentValues.reduce((a, b) => a + b, 0) / innocentValues.length;
+            markerInnocent.style.left = `${(avgInnocent / 10) * 100}%`;
+            markerInnocent.style.display = 'block';
+        } else {
+            markerInnocent.style.display = 'none';
+        }
+
+        // --- Angepasste Urteilssprüche ---
         const total = guiltyCount + innocentCount;
         let phrase = "";
         if (total > 0) {
             const guiltyPercentage = (guiltyCount / total) * 100;
             if (guiltyPercentage >= 90) {
-                phrase = "Euer Ehren, Ihr seid gnadenlos!";
-            } else if (guiltyPercentage <= 30) {
-                phrase = "Die Gnade der Justiz in Person!";
+                phrase = "Du bist gnadenlos!";
+            } else if (guiltyPercentage < 30) {
+                phrase = "Weichei!!";
             } else {
                 phrase = "Ein sehr ausgewogenes Urteil.";
             }
@@ -563,9 +493,7 @@
         if (isAnimating || isJokerModalOpen || !document.getElementById('anklage-modal').classList.contains('hidden') || autoJudgeQueue.length > 0) return;
         
         isSwiping = true;
-        // Falls noch nicht geschehen: CSS-Animation abbrechen, da sie sonst das Wischen überschreibt!
         defendantEl.classList.remove('slide-up'); 
-        
         startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
         defendantEl.style.transition = 'none';
     }
@@ -581,7 +509,6 @@
         }
         
         const rotate = diffX * 0.05;
-        // Figur folgt jetzt exakt dem Finger!
         defendantEl.style.transform = `translateX(calc(-50% + ${diffX}px)) rotate(${rotate}deg)`;
     }
 
@@ -595,7 +522,7 @@
         const threshold = 80;
 
         if (diffX > threshold) {
-            judge('innocent', diffX); // Wir übergeben dem Judge wie weit wir schon gewischt haben
+            judge('innocent', diffX); 
         } else if (diffX < -threshold) {
             judge('guilty', diffX);
         } else {
@@ -609,22 +536,21 @@
         isAnimating = true;
         const feedbackEl = document.getElementById('feedback-text');
         
-        // Weiche, aber sichtbare Flug-Animation vom aktuellen Punkt aus
         defendantEl.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease-out';
         
         if (verdict === 'innocent') {
             innocentCount++;
+            innocentValues.push(currentDefendant.value);
             feedbackEl.innerText = "Unschuldig!";
             feedbackEl.className = "text-innocent";
-            // Fliegt von der aktuellen Wischposition (oder der Mitte beim Joker) weit nach rechts aus dem Bild
             const offScreenX = Math.max(currentDiffX, window.innerWidth / 2 + 100);
             defendantEl.style.transform = `translateX(calc(-50% + ${offScreenX}px)) rotate(25deg)`;
             defendantEl.style.opacity = '0';
         } else {
             guiltyCount++;
+            guiltyValues.push(currentDefendant.value);
             feedbackEl.innerText = "Schuldig!";
             feedbackEl.className = "text-guilty";
-            // Fliegt von der aktuellen Wischposition weit nach links aus dem Bild
             const offScreenX = Math.min(currentDiffX, -(window.innerWidth / 2 + 100));
             defendantEl.style.transform = `translateX(calc(-50% + ${offScreenX}px)) rotate(-25deg)`;
             defendantEl.style.opacity = '0';
@@ -632,7 +558,6 @@
         
         feedbackEl.style.opacity = 1;
         
-        // Nach Ablauf der 400ms Wisch-Animation: Neu laden
         setTimeout(() => {
             feedbackEl.style.opacity = 0;
             loadNextDefendant();
